@@ -1,0 +1,65 @@
+{
+  "name": "@/vue-mark",
+  "version": "1.0.0",
+  "description": "vue-mark",
+  "private": true,
+  "author": "bung87",
+  "license": "MIT",
+  "engines": {
+    "yarn": ">=1.13.0"
+  },
+  "scripts": {
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage --coverageDirectory=build/coverage --passWithNoTests",
+    "test:watch": "jest --coverage --coverageDirectory=build/coverage --passWithNoTests --watch",
+    "doc": "typedoc --out build/docs --excludePrivate --excludeExternals --exclude **/*.test.ts --target es6 src",
+    "prebuild": "yarn lint",
+    "build": "rollup -c rollup.config.ts",
+    "postbuild": "yarn escheck ; yarn test ; yarn doc ; yarn generate:readme",
+    "build:local": "rollup -c rollup.config.ts --environment BUILD:development",
+    "link:list": "node node_modules/yarn-list-link/bin/yarn-list-link.js",
+    "escheck": "es-check -v",
+    "lint": "tslint --project ./tsconfig.json",
+    "build-commit-deploy": "yarn build ; git commit -am \"new version\" ; git push ; yarn deploy-module",
+    "deploy-module": "publish-to-git",
+    "new:major": "yarn version --no-git-tag-version --major",
+    "postnew:major": "yarn build-commit-deploy",
+    "new:minor": "yarn version --no-git-tag-version --minor",
+    "postnew:minor": "yarn build-commit-deploy",
+    "new:patch": "yarn version --no-git-tag-version --patch",
+    "postnew:patch": "yarn build-commit-deploy",
+    "generate:readme": "verb readme"
+  },
+  "module": "build/vue-mark.js",
+  "types": "build/types/src/Mark.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:@/vue-mark.git"
+  },
+  "dependencies": {
+    "@log4js2/core": "^2.0.9",
+    "@types/lodash": "^4.14.144",
+    "@types/mark.js": "^8.11.4",
+    "lodash": "^4.17.15",
+    "mark.js": "^8.11.1",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.20",
+    "@types/vue": "^2.0.0",
+    "es-check": "^5.0.0",
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2",
+    "publish-to-git": "^1.1.7",
+    "rollup": "^1.26.0",
+    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.6.4",
+    "yarn-list-link": "^1.0.1"
+  }
+}
